@@ -1,0 +1,50 @@
+{
+	"name": "modal",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"dependencies": {
+		"@types/react": "^16.8.13",
+		"@types/react-dom": "^16.8.3",
+		"jest": "^25.1.0",
+		"optimize-css-assets-webpack-plugin": "^5.0.3",
+		"react": "^16.8.6",
+		"react-dom": "^16.8.6",
+		"stylus": "^0.54.7",
+		"stylus-loader": "^3.0.2",
+		"terser-webpack-plugin": "^2.3.5"
+	},
+	"scripts": {
+		"dev": "webpack-dev-server --env.ENVIRONMENT=development --config ./webpack.config.js --watch --hot",
+		"prod": "webpack --env.ENVIRONMENT=production --config ./webpack.config.js"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.4.3",
+		"@babel/core": "^7.4.3",
+		"@babel/plugin-proposal-class-properties": "^7.4.0",
+		"@babel/plugin-proposal-object-rest-spread": "^7.4.3",
+		"@babel/preset-env": "^7.4.3",
+		"@babel/preset-react": "^7.0.0",
+		"@babel/preset-typescript": "^7.3.3",
+		"babel-loader": "^8.0.5",
+		"css-loader": "^2.1.1",
+		"html-webpack-plugin": "^3.2.0",
+		"mini-css-extract-plugin": "^0.5.0",
+		"ts-loader": "^5.3.3",
+		"typescript": "^3.4.1",
+		"webpack": "^4.29.6",
+		"webpack-cli": "^3.3.0",
+		"webpack-dev-server": "^3.2.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/vlev322/btc_wallet_insider.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/vlev322/btc_wallet_insider/issues"
+	},
+	"homepage": "https://github.com/vlev322/btc_wallet_insider#readme"
+}
