@@ -1,12 +1,12 @@
 import React from "react";
 
-interface ITransactionsProps {
+interface ITxsProps {
 	receivedTxCount: number;
 	sentTxCount: number;
 	invalidTxCount: number;
 }
 
-const TransactionsInfo = ({ receivedTxCount, sentTxCount, invalidTxCount }: ITransactionsProps) => {
+const TransactionsInfo = ({ receivedTxCount, sentTxCount, invalidTxCount }: ITxsProps): JSX.Element => {
 	return (
 		<div className="address-transactions">
 			<div className="received">
