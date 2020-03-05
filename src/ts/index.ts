@@ -1,4 +1,4 @@
-console.log('Heloooo everything OKKaaYY!');
-let str = 'Our strssing';
+import { IndexComposition } from "./components/indexComposition";
+import { render } from "./render";
 
-console.log(str);
+render(IndexComposition);
