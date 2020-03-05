@@ -1,0 +1,38 @@
+.address
+	&-header
+		font-size 21px
+		display flex
+		flex-direction row
+		align-items center
+		justify-content space-around
+		border-bottom 1px solid bd-color
+
+		p
+			color base-primary
+			flex-grow 1
+
+		span
+			color base-accent
+			flex-grow 2
+
+	&-balance, &-transactions
+		div
+			display flex
+			align-items baseline
+			justify-content space-between
+
+			p
+				color #ffffff
+		&-total
+			p.accent
+				color #0caf0c
+
+	&-info
+		display flex
+		align-items baseline
+		justify-content space-around
+
+		>div
+			width 28%
+			>p
+				border-bottom 1px solid bd-color
