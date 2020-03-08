@@ -1,12 +1,15 @@
 import React from "react";
 
-interface IBalanceInfo {
+import { normalizeConvertValue } from "../../../logic/normalizeConvert";
+
+export interface IBalanceInfo {
 	balance: number;
 	receivedAmount: number;
 	sentAmount: number;
 }
 
 const BalanceInfo = ({ balance, receivedAmount, sentAmount }: IBalanceInfo): JSX.Element => {
+	[balance, receivedAmount, sentAmount] = normalizeConvertValue(balance, receivedAmount, sentAmount);
 	return (
 		<div className="address-balance">
 			<div className="address-balance-total">

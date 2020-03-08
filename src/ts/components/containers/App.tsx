@@ -1,35 +1,44 @@
 import React from "react";
+import { connect } from "react-redux";
+import { CircularProgress } from "@material-ui/core";
+
+import { selectPage } from "../../logic/actions";
+
+import { IBalanceInfo } from "../addres/balance";
 import AddressInfo from "../addres";
 import TransactionsList from "../list";
 
-const testPropsForAddress = {
-	address: "mrKQkNc62v7jWsoTWVpcy72kZzE2gjTTGc",
-	balance: 190.1234,
-	receivedAmount: 190.0433,
-	sentAmount: 0.23,
-	receivedTxCount: 432,
-	sentTxCount: 98,
-	invalidTxCount: 11
-};
-const testPropsForTransactions = {
-	list: [
-		{
-			txId: "a2ff72bd48416139d50d4ad9fe802e29185727a37415a895fbfd49cd0b",
-			time: "2020-03-03T20:53:09Z",
-			amount: 0.23452,
-			type: "sent"
-		}
-	],
-	page: 1,
-	pages: 10
-};
+const App = (props: any): JSX.Element => {
+	const { data: address } = props.dataByAddres;
+	const _onChangePage = (_: any, nextPage: number) => {
+		props.dispatch(selectPage(nextPage));
+	};
 
-const App = () => {
 	return (
-		<div className="content">
-			<AddressInfo {...testPropsForAddress} />
-			<TransactionsList {...testPropsForTransactions} />
+		<div>
+			{props.isFetching ? (
+				<div className="loader">
+					<CircularProgress disableShrink />
+				</div>
+			) : (
+				<div className="content">
+					<AddressInfo {...address} />
+					<TransactionsList {...props} onChange={_onChangePage} />
+				</div>
+			)}
 		</div>
 	);
 };
-export default App;
+
+function mapStateToProps(state: { selectedPage: number; listByPage: []; dataByAddres: IBalanceInfo }) {
+	const { selectedPage, listByPage, dataByAddres } = state;
+	const { isFetching, txsList, pages } = listByPage[selectedPage] || { isFetching: true, txsList: [], pages: 0 };
+	return {
+		dataByAddres,
+		selectedPage,
+		txsList,
+		isFetching,
+		pages
+	};
+}
+export default connect(mapStateToProps)(App);

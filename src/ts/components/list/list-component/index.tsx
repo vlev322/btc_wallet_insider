@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { Card, CardContent, Typography } from "@material-ui/core";
+import { normalizeConvertValue } from "../../../logic/normalizeConvert";
 
 export interface ITxsItem {
 	txId: string;
@@ -11,6 +11,8 @@ export interface ITxsItem {
 }
 
 const TransactionListItem = ({ txId, amount, time, type }: ITxsItem) => {
+	[amount] = normalizeConvertValue(amount);
+
 	const styleTypeTxs = type === "sent" ? "loss" : "income";
 	return (
 		<div className="txs-item">
@@ -22,7 +24,10 @@ const TransactionListItem = ({ txId, amount, time, type }: ITxsItem) => {
 					<Paper className="paper txs-item-field">{txId}</Paper>
 				</Grid>
 				<Grid item xs={2}>
-					<Paper className={`paper ${styleTypeTxs} txs-item-field`}>{amount} BTC</Paper>
+					<Paper className={`paper ${styleTypeTxs} txs-item-field`}>
+						{type === "sent" ? "- " : "+ "}
+						{amount} BTC
+					</Paper>
 				</Grid>
 			</Grid>
 		</div>
