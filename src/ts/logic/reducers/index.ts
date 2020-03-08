@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
-import { SELECT_PAGE, REQUEST_LIST, RECEIVE_LIST } from "../actions";
+import { SELECT_PAGE, REQUEST_LIST, RECEIVE_LIST, RECEIVE_ADDRESS_INFO, REQUEST_ADDRESS_INFO } from "../actions";
 
-function selectedPage(state = "reactjs", action: { type: any; page: number }) {
+function selectedPage(state = 1, action: { type: string; page: number }) {
 	switch (action.type) {
 		case SELECT_PAGE:
 			return action.page;
@@ -10,12 +10,13 @@ function selectedPage(state = "reactjs", action: { type: any; page: number }) {
 	}
 }
 
-function posts(
+function list(
 	state = {
 		isFetching: false,
-		items: []
+		txsList: [],
+		pages: 0
 	},
-	action: { type: any; list: [] }
+	action: { type: string; list: []; pages: number }
 ) {
 	switch (action.type) {
 		case REQUEST_LIST:
@@ -25,7 +26,30 @@ function posts(
 			return {
 				...state,
 				isFetching: false,
-				items: action.list
+				txsList: action.list,
+				pages: action.pages
+			};
+		default:
+			return state;
+	}
+}
+
+function addressData(
+	state = {
+		isFetching: false,
+		data: {}
+	},
+	action: { type: string; data: {} }
+) {
+	switch (action.type) {
+		case REQUEST_ADDRESS_INFO:
+			return { ...state, isFetching: true };
+
+		case RECEIVE_ADDRESS_INFO:
+			return {
+				...state,
+				isFetching: false,
+				data: action.data
 			};
 		default:
 			return state;
@@ -38,7 +62,21 @@ function listByPage(state: any = {}, action: any) {
 		case RECEIVE_LIST:
 			return {
 				...state,
-				[action.reddit]: posts(state[action.reddit], action)
+				[action.page]: list(state[action.page], action),
+				pages: action.pages
+			};
+		default:
+			return state;
+	}
+}
+
+function dataByAddres(state: any = {}, action: { type: string; data: {} }) {
+	switch (action.type) {
+		case REQUEST_ADDRESS_INFO:
+		case RECEIVE_ADDRESS_INFO:
+			return {
+				...state,
+				data: { ...addressData(state, action).data }
 			};
 		default:
 			return state;
@@ -47,7 +85,8 @@ function listByPage(state: any = {}, action: any) {
 
 const rootReducer = combineReducers({
 	listByPage,
-	selectedPage
+	selectedPage,
+	dataByAddres
 });
 
 export default rootReducer;

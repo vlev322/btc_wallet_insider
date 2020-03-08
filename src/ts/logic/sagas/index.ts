@@ -1,47 +1,54 @@
 import { take, put, call, fork, select } from "redux-saga/effects";
 import fetch from "isomorphic-fetch";
+
 import * as actions from "../actions";
 import { listByPageSelector, selectedPageSelector } from "../reducers/selectors";
 
-export async function fetchListApi(page: any) {
+const ADDRESS = "mrKQkNc62v7jWsoTWVpcy72kZzE2gjTTGc";
+
+export async function fetchListApi(page: number) {
 	const response = await fetch(
-		`https://api.bitaps.com/btc/testnet/v1/blockchain/address/transactions/mrKQkNc62v7jWsoTWVpcy72kZzE2gjTTGc?limit=25&page=${1}`
+		`https://api.bitaps.com/btc/testnet/v1/blockchain/address/transactions/${ADDRESS}?limit=25&page=${page}`
 	);
 	const json = await response.json();
-	return json.data.list;
+	return json.data;
+}
+export async function fetchAddressInfoApi() {
+	const response = await fetch(`https://api.bitaps.com/btc/testnet/v1/blockchain/address/state/${ADDRESS}`);
+	const json = await response.json();
+	return json.data;
 }
 
-export function* fetchList(page: any) {
-	yield put(actions.requestPosts(page));
-	const list = yield call(fetchListApi, page);
-	yield put(actions.receivePosts(page, list));
+export function* fetchList(page: number) {
+	yield put(actions.requestList(page));
+	const listData = yield call(fetchListApi, page);
+	const { list, pages } = listData;
+	yield put(actions.receiveList(page, list, pages));
 }
 
-export function* invalidatePage() {
-	while (true) {
-		const { page } = yield take(actions.INVALIDATE_PAGE);
-		yield call(fetchList, page);
-	}
+export function* fetchAddressInfo() {
+	yield put(actions.requestAddressInfo());
+	const data = yield call(fetchAddressInfoApi);
+	yield put(actions.receiveAddressInfo(data));
 }
 
 export function* nextPageChange() {
 	while (true) {
-		const prevReddit = yield select(selectedPageSelector);
+		const prevPage = yield select(selectedPageSelector);
 		yield take(actions.SELECT_PAGE);
-
 		const newPage = yield select(selectedPageSelector);
-		const postsByReddit = yield select(listByPageSelector);
-		if (prevReddit !== newPage && !postsByReddit[newPage]) yield fork(fetchList, newPage);
+		const listByPage = yield select(listByPageSelector);
+		if (prevPage !== newPage && !listByPage[newPage]) yield fork(fetchList, newPage);
 	}
 }
 
 export function* startup() {
 	const selectedPage = yield select(selectedPageSelector);
+	yield fork(fetchAddressInfo);
 	yield fork(fetchList, selectedPage);
 }
 
 export default function* root() {
 	yield fork(startup);
 	yield fork(nextPageChange);
-	yield fork(invalidatePage);
 }
