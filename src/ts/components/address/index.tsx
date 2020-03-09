@@ -2,18 +2,19 @@ import React from "react";
 import BalanceInfo from "./balance";
 import TransactionsInfo from "./transactions";
 
-interface IAddressProps {
-	address: string;
-	balance: number;
-	receivedAmount: number;
-	sentAmount: number;
+export interface IAddressProps {
 	receivedTxCount: number;
-	sentTxCount: number;
+	receivedAmount: number;
 	invalidTxCount: number;
+	sentTxCount: number;
+	sentAmount: number;
+	balance: number;
+	address: string;
 }
 
 const AddressInfo = (props: IAddressProps): JSX.Element => {
 	const { address } = props;
+
 	return (
 		<div className="address card-body">
 			<div className="address-header">

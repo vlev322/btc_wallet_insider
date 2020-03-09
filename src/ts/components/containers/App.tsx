@@ -1,19 +1,38 @@
 import React from "react";
 import { connect } from "react-redux";
+import { createSelector } from "reselect";
 import { CircularProgress } from "@material-ui/core";
 
 import { selectPage } from "../../logic/actions";
 
-import { IBalanceInfo } from "../addres/balance";
-import AddressInfo from "../addres";
-import TransactionsList from "../list";
+import { dataByAddressSelector } from "../../logic/reducers/selectors";
+import normalizeConvertValue from "../../logic/normalizeConvert";
+import TransactionsList, { ITxsList } from "../list";
+import { ITxsItem } from "../list/list-component";
+import { IBalanceInfo } from "../address/balance";
+import AddressInfo, { IAddressProps } from "../address";
+
+interface IState {
+	dataByAddress: { data: IBalanceInfo };
+	listByPage: ITxsList[];
+	selectedPage: number;
+}
+
+interface IProps {
+	dispatch: (action:{}) => void;
+	dataByAddress: IAddressProps;
+	txsList: ITxsList[];
+	selectedPage: number;
+	isFetching: boolean;
+	page: number;
+	pages: number;
+}
 
 const App = (props: any): JSX.Element => {
-	const { data: address } = props.dataByAddres;
 	const _onChangePage = (_: any, nextPage: number) => {
 		props.dispatch(selectPage(nextPage));
 	};
-
+	const { dataByAddress } = props;
 	return (
 		<div>
 			{props.isFetching ? (
@@ -22,7 +41,7 @@ const App = (props: any): JSX.Element => {
 				</div>
 			) : (
 				<div className="content">
-					<AddressInfo {...address} />
+					<AddressInfo {...dataByAddress} />
 					<TransactionsList {...props} onChange={_onChangePage} />
 				</div>
 			)}
@@ -30,14 +49,32 @@ const App = (props: any): JSX.Element => {
 	);
 };
 
-function mapStateToProps(state: { selectedPage: number; listByPage: []; dataByAddres: IBalanceInfo }) {
-	const { selectedPage, listByPage, dataByAddres } = state;
-	const { isFetching, txsList, pages } = listByPage[selectedPage] || { isFetching: true, txsList: [], pages: 0 };
+const addressSelector = createSelector(
+	dataByAddressSelector,
+	(dataByAddress: IBalanceInfo): IBalanceInfo => {
+		let { balance, receivedAmount, sentAmount } = dataByAddress;
+		[balance, receivedAmount, sentAmount] = normalizeConvertValue(balance, receivedAmount, sentAmount);
+		return { ...dataByAddress, balance, receivedAmount, sentAmount };
+	}
+);
+
+const getList = (txsList: ITxsItem[]) => txsList;
+
+const listSelector = createSelector(getList, (list: ITxsItem[]) =>
+	list.map((listItem: ITxsItem) => {
+		return { ...listItem, amount: normalizeConvertValue(listItem.amount) };
+	})
+);
+
+function mapStateToProps(state: IState) {
+	const { selectedPage, listByPage } = state;
+	const { isFetching, txsList, pages } = listByPage[selectedPage] || { isFetching: true, txsList: [], pages: 1 };
+
 	return {
-		dataByAddres,
+		dataByAddress: addressSelector(state),
 		selectedPage,
-		txsList,
 		isFetching,
+		txsList: listSelector(txsList),
 		pages
 	};
 }

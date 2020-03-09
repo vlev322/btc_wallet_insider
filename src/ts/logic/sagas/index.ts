@@ -8,11 +8,12 @@ const ADDRESS = "mrKQkNc62v7jWsoTWVpcy72kZzE2gjTTGc";
 
 export async function fetchListApi(page: number) {
 	const response = await fetch(
-		`https://api.bitaps.com/btc/testnet/v1/blockchain/address/transactions/${ADDRESS}?limit=25&page=${page}`
+		`https://api.bitaps.com/btc/testnet/v1/blockchain/address/transactions/${ADDRESS}?limit=15&page=${page}`
 	);
 	const json = await response.json();
 	return json.data;
 }
+
 export async function fetchAddressInfoApi() {
 	const response = await fetch(`https://api.bitaps.com/btc/testnet/v1/blockchain/address/state/${ADDRESS}`);
 	const json = await response.json();
@@ -23,7 +24,8 @@ export function* fetchList(page: number) {
 	yield put(actions.requestList(page));
 	const listData = yield call(fetchListApi, page);
 	const { list, pages } = listData;
-	yield put(actions.receiveList(page, list, pages));
+	const filteredList = list.filter((txs: any) => txs.confirmations >= 3);
+	yield put(actions.receiveList(page, filteredList, pages));
 }
 
 export function* fetchAddressInfo() {

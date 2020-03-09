@@ -1,19 +1,17 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { normalizeConvertValue } from "../../../logic/normalizeConvert";
 
 export interface ITxsItem {
+	amount: number;
 	txId: string;
 	time: string;
-	amount: number;
 	type: string;
 }
 
 const TransactionListItem = ({ txId, amount, time, type }: ITxsItem) => {
-	[amount] = normalizeConvertValue(amount);
-
 	const styleTypeTxs = type === "sent" ? "loss" : "income";
+
 	return (
 		<div className="txs-item">
 			<Grid container spacing={1}>

@@ -3,11 +3,12 @@ import { Pagination } from "@material-ui/lab";
 
 import TransactionListItem, { ITxsItem } from "./list-component";
 
-interface ITxsList {
-	txsList: ITxsItem[];
-	selectedPage: number;
-	pages: number;
+export interface ITxsList {
 	onChange: (nextPage: number) => void;
+	selectedPage: number;
+	txsList: ITxsItem[];
+	isFetching: boolean;
+	pages: number;
 }
 
 const TransactionsList = (props: ITxsList): JSX.Element => {
@@ -16,9 +17,7 @@ const TransactionsList = (props: ITxsList): JSX.Element => {
 	return (
 		<div className="card-body">
 			<div className="list-container">
-				{txsList.map((
-					txs: ITxsItem //confirmations
-				) => (
+				{txsList.map((txs: ITxsItem) => (
 					<TransactionListItem {...txs} key={txs.txId} />
 				))}
 			</div>

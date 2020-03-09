@@ -70,7 +70,7 @@ function listByPage(state: any = {}, action: any) {
 	}
 }
 
-function dataByAddres(state: any = {}, action: { type: string; data: {} }) {
+function dataByAddress(state: any = {}, action: { type: string; data: {} }) {
 	switch (action.type) {
 		case REQUEST_ADDRESS_INFO:
 		case RECEIVE_ADDRESS_INFO:
@@ -86,7 +86,7 @@ function dataByAddres(state: any = {}, action: { type: string; data: {} }) {
 const rootReducer = combineReducers({
 	listByPage,
 	selectedPage,
-	dataByAddres
+	dataByAddress
 });
 
 export default rootReducer;

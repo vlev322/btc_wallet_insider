@@ -9,7 +9,7 @@ import App from "../components/containers/App";
 const store = configureStore();
 store.runSaga(rootSaga);
 
-export const IndexComposition = () => {
+export const IndexComposition = (): JSX.Element => {
 	return (
 		<Provider store={store}>
 			<App />
