@@ -46,8 +46,8 @@ export function* nextPageChange() {
 
 export function* startup() {
 	const selectedPage = yield select(selectedPageSelector);
-	yield fork(fetchAddressInfo);
 	yield fork(fetchList, selectedPage);
+	yield fork(fetchAddressInfo);
 }
 
 export default function* root() {
