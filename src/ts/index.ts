@@ -1,4 +1,9 @@
-import { IndexComposition } from "./components/indexComposition";
-import { render } from "./render";
+import ReactDom from "react-dom";
+import { createElement } from "react";
 
-render(IndexComposition);
+import { IndexComposition } from "./components/IndexComposition";
+
+const container = document.getElementById("root");
+const indexComponent = createElement(IndexComposition);
+
+ReactDom.render(indexComponent, container);

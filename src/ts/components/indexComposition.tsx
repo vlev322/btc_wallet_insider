@@ -1,13 +1,9 @@
-import React from "react";
 import { Provider } from "react-redux";
+import React from "react";
 
-import rootSaga from "../logic/sagas";
-import configureStore from "../logic/store/configureStore";
+import store from "../store";
 
-import App from "../components/containers/App";
-
-const store = configureStore();
-store.runSaga(rootSaga);
+import App from "./containers/App";
 
 export const IndexComposition = (): JSX.Element => {
 	return (

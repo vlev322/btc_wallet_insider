@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import { createSelector } from "reselect";
 import { CircularProgress } from "@material-ui/core";
 
-import { selectPage } from "../../logic/actions";
+import { selectPage } from "../../store/modules/txs-list/actions";
 
-import { dataByAddressSelector } from "../../logic/reducers/selectors";
-import normalizeConvertValue from "../../logic/normalizeConvert";
+import { dataByAddressSelector } from "../../store/selectors/selectors";
+import normalizeConvertValue from "../../store/normalizators/satoshiToBtc";
 import TransactionsList, { ITxsList } from "../list";
 import { ITxsItem } from "../list/list-component";
 import { IBalanceInfo } from "../address/balance";
@@ -19,7 +19,7 @@ interface IState {
 }
 
 interface IProps {
-	dispatch: (action:{}) => void;
+	dispatch: (action: {}) => void;
 	dataByAddress: IAddressProps;
 	txsList: ITxsList[];
 	selectedPage: number;
@@ -29,8 +29,8 @@ interface IProps {
 }
 
 const App = (props: any): JSX.Element => {
-	const _onChangePage = (_: any, nextPage: number) => {
-		props.dispatch(selectPage(nextPage));
+	const _onChangePage = (_: any, page: number) => {
+		props.dispatch(selectPage({ page }));
 	};
 	const { dataByAddress } = props;
 	return (
