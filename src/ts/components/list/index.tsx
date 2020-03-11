@@ -1,24 +1,24 @@
 import React from "react";
 import { Pagination } from "@material-ui/lab";
 
-import TransactionListItem, { ITxsItem } from "./list-component";
+import TransactionListItem from "./list-component";
+// import { ITxs } from "../../interfaces";
 
 export interface ITxsList {
 	onChange: (nextPage: number) => void;
 	selectedPage: number;
-	txsList: ITxsItem[];
+	txsList: any[];
 	isFetching: boolean;
 	pages: number;
 }
 
 const TransactionsList = (props: ITxsList): JSX.Element => {
 	const { txsList, pages, selectedPage, onChange } = props;
-
 	return (
 		<div className="card-body">
 			<div className="list-container">
-				{txsList.map((txs: ITxsItem) => (
-					<TransactionListItem {...txs} key={txs.txId} />
+				{txsList.map((txs: any) => (
+					<TransactionListItem {...txs} key={txs.txid} />
 				))}
 			</div>
 			<div className="pagination-container">

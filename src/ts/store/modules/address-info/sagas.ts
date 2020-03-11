@@ -7,5 +7,5 @@ import { instanceAxios } from "../../../../utils/config";
 export function* fetchAddressInfo() {
 	yield put(requestAddressInfo({}));
 	const { data } = yield call(instanceAxios, ADDRESS_INFO_PATH);
-	yield put(receiveAddressInfo({ data: data.data }));
+	yield put(receiveAddressInfo({ data: data.payload }));
 }

@@ -1,18 +1,10 @@
 import React from "react";
 import BalanceInfo from "./balance";
 import TransactionsInfo from "./transactions";
+import { IAddress } from "../../interfaces";
+// import { IAddress } from "~interfaces";
 
-export interface IAddressProps {
-	receivedTxCount: number;
-	receivedAmount: number;
-	invalidTxCount: number;
-	sentTxCount: number;
-	sentAmount: number;
-	balance: number;
-	address: string;
-}
-
-const AddressInfo = (props: IAddressProps): JSX.Element => {
+const AddressInfo = (props: IAddress): JSX.Element => {
 	const { address } = props;
 
 	return (

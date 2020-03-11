@@ -6,7 +6,7 @@ function addressData(
 		isFetching: false,
 		data: {}
 	},
-	action: { type: string; payload: { data: {}; }; }
+	action: { type: string; payload: { data: {} } }
 ) {
 	switch (action.type) {
 		case REQUEST_ADDRESS_INFO:
@@ -23,7 +23,10 @@ function addressData(
 	}
 }
 
-function dataByAddress(state: { isFetching: boolean; data: {}; } | undefined, action: any) {
+function dataByAddress(
+	state: { isFetching: boolean; data: {} } = { isFetching: false, data: {} },
+	action: { type: string; payload: { data: {} } }
+) {
 	switch (action.type) {
 		case REQUEST_ADDRESS_INFO:
 		case RECEIVE_ADDRESS_INFO:

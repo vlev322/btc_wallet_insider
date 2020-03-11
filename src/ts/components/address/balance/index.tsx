@@ -1,12 +1,7 @@
 import React from "react";
+import { IBalance } from "../../../interfaces";
 
-export interface IBalanceInfo {
-	receivedAmount: number;
-	sentAmount: number;
-	balance: number;
-}
-
-const BalanceInfo = ({ balance, receivedAmount, sentAmount }: IBalanceInfo): JSX.Element => (
+const BalanceInfo = ({ balance, totalReceived, totalSpent }: IBalance): JSX.Element => (
 	<div className="address-balance">
 		<div className="address-balance-total">
 			<span className="label">Total amount</span>
@@ -14,11 +9,11 @@ const BalanceInfo = ({ balance, receivedAmount, sentAmount }: IBalanceInfo): JSX
 		</div>
 		<div className="address-balance-received">
 			<span className="label">Total received</span>
-			<p>{receivedAmount} BTC</p>
+			<p>{totalReceived} BTC</p>
 		</div>
 		<div className="address-balance-send">
 			<span className="label">Total sent</span>
-			<p>{sentAmount} BTC</p>
+			<p>{totalSpent} BTC</p>
 		</div>
 	</div>
 );

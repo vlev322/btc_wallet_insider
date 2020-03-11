@@ -1,24 +1,24 @@
 import React from "react";
 
 interface ITxsProps {
-	receivedTxCount: number;
-	invalidTxCount: number;
-	sentTxCount: number;
+	txsCount: number;
+	txo: number;
+	txi: number;
 }
 
-const TransactionsInfo = ({ receivedTxCount, sentTxCount, invalidTxCount }: ITxsProps): JSX.Element => (
+const TransactionsInfo = ({ txsCount, txo, txi }: ITxsProps): JSX.Element => (
 	<div className="address-transactions">
 		<div className="received">
+			<span className="label">Total count</span>
+			<p>{txsCount}</p>
+		</div>
+		<div className="received">
 			<span className="label">Received</span>
-			<p>{receivedTxCount}</p>
+			<p>{txo}</p>
 		</div>
 		<div className="sent">
 			<span className="label">Sent</span>
-			<p>{sentTxCount}</p>
-		</div>
-		<div className="ivalid">
-			<span className="label">Invalid</span>
-			<p>{invalidTxCount}</p>
+			<p>{txi}</p>
 		</div>
 	</div>
 );
