@@ -1,33 +1,33 @@
-import React from "react";
 import { Pagination } from "@material-ui/lab";
-
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ITxsItem } from "../../interfaces/index";
+import { selectPage } from "../../store/modules/txs-list/actions";
 import TransactionListItem from "./list-component";
-// import { ITxs } from "../../interfaces";
+import { listSelector, selectPageSelectorMemo, selectQntPages } from "../../store/selectors/selectors";
 
-export interface ITxsList {
-	onChange: (nextPage: number) => void;
-	selectedPage: number;
-	txsList: any[];
-	isFetching: boolean;
-	pages: number;
-}
 
-const TransactionsList = (props: ITxsList): JSX.Element => {
-	const { txsList, pages, selectedPage, onChange } = props;
+const TransactionsList = (): JSX.Element => {
+	const txsList: ITxsItem[] = useSelector(listSelector);
+	const page = useSelector(selectPageSelectorMemo);
+	const pages = useSelector(selectQntPages);
+
+	const dispatch = useDispatch();
+	const _onNextPage = useCallback((_, page) => dispatch(selectPage({ page })), [dispatch]);
 	return (
 		<div className="card-body">
 			<div className="list-container">
-				{txsList.map((txs: any) => (
-					<TransactionListItem {...txs} key={txs.txid} />
+				{txsList.map((txs: ITxsItem) => (
+					<TransactionListItem {...txs} key={txs.txid + txs.txouts} />
 				))}
 			</div>
 			<div className="pagination-container">
 				<Pagination
 					size="large"
-					onChange={onChange}
+					onChange={_onNextPage}
 					color="secondary"
 					count={pages}
-					page={selectedPage}
+					page={page}
 					variant="outlined"
 					shape="rounded"
 				/>

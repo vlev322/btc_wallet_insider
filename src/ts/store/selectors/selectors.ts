@@ -1,22 +1,25 @@
 import { createSelector } from "reselect";
-import { IBalance } from "../../interfaces";
-// import { IBalance } from "~interfaces";
+import { IAddress, IState, ITxsItem, ITxssList } from "../../interfaces";
 
-const dataByAddressSelector = (state: { dataByAddress: { data: IBalance } }) => state.dataByAddress.data;
+const dataByAddrSelector = (state: IState): IAddress => state.dataByAddress.data;
+export const addressSelector = createSelector(dataByAddrSelector, (dataByAddress: IAddress): IAddress => dataByAddress);
 
-export const addressSelector = createSelector(
-	dataByAddressSelector,
-	(dataByAddress: IBalance): IBalance => {
-		return dataByAddress;
-	}
-);
+const getList = (state: IState): ITxsItem[] => state.listByPage[state.selectedPage].txsList;
+export const listSelector = createSelector(getList, (list: ITxsItem[]): ITxsItem[] => list);
 
+const getListInfo = (state: IState) => state;
+export const listInfoSelector = createSelector(getListInfo, data => data);
 
-const getList = (state: any) => state.listByPage[state.selectedPage].txsList;
+export const selectedPageSelector = (state: IState): number => state.selectedPage;
+export const selectPageSelectorMemo = createSelector(selectedPageSelector, (page: number): number => page);
 
-export const listSelector = createSelector(getList, list => list);
+export const qntPagesSelector = (state: IState): number => state.listByPage[1].pages;
+export const selectQntPages = createSelector(qntPagesSelector, (pages: number): number => pages);
 
-export const selectedPageSelector = (state: { selectedPage: number }) => state.selectedPage;
-export const listByPageSelector = (state: { listByPage: [] }) => state.listByPage;
+export const isFetchingSelector = (state: IState): boolean => {
+	const selectedPage = selectedPageSelector(state);
+	return state.listByPage[selectedPage].isFetching;
+};
+export const isLoading = createSelector(isFetchingSelector, (isFetching: boolean): boolean => isFetching);
 
-
+export const listByPageSelector = (state: IState): ITxssList => state.listByPage;

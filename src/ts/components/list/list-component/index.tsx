@@ -1,9 +1,9 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-// import { ITxs } from "~interfaces";
+import { ITxsItem } from "../../../interfaces/index";
 
-const TransactionListItem = ({ txid, time, txouts }: any) => {
+const TransactionListItem = ({ txid, time, txouts }: ITxsItem) => {
 	const styleTypeTxs = txouts[0]["spent"] ? "loss" : "income";
 	const { amount, spent } = txouts[0];
 	return (

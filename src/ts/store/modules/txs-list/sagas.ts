@@ -1,14 +1,10 @@
-import { put, call, select, take, fork } from "redux-saga/effects";
-
+import { call, fork, put, select, take } from "redux-saga/effects";
 import { instanceAxios } from "../../../../utils/config";
-
-import { LIMIT_ITEMS_ON_PAGE, TRANSACTIONS_PATH } from "../../../constants/api";
 import { SELECT_PAGE } from "../../../constants/actions";
-
+import { LIMIT_ITEMS_ON_PAGE, TRANSACTIONS_PATH } from "../../../constants/api";
+import { ITxsItem, ITxsMeta } from "../../../interfaces";
 import { listByPageSelector, selectedPageSelector } from "../../selectors/selectors";
-import { requestList, receiveList } from "./actions";
-
-import {  ITxsMeta } from "../../../interfaces";
+import { receiveList, requestList } from "./actions";
 
 export function* fetchList(page: number) {
 	yield put(requestList({ page }));
@@ -17,8 +13,8 @@ export function* fetchList(page: number) {
 		index: page * LIMIT_ITEMS_ON_PAGE
 	};
 	const { data } = yield call(instanceAxios, TRANSACTIONS_PATH, { params });
-	const { payload, meta }: { payload: any[]; meta: ITxsMeta } = data;
-	const list: any[] = payload.filter((txs: any) => txs.confirmations >= 3);
+	const { payload, meta }: { payload: ITxsItem[]; meta: ITxsMeta } = data;
+	const list: ITxsItem[] = payload.filter((txs: ITxsItem) => txs.confirmations >= 3);
 	const pages = Math.ceil(meta.totalCount / meta.limit);
 	yield put(receiveList({ page, list, pages }));
 }

@@ -1,12 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { IAddress } from "../../interfaces";
+import { addressSelector } from "../../store/selectors/selectors";
 import BalanceInfo from "./balance";
 import TransactionsInfo from "./transactions";
-import { IAddress } from "../../interfaces";
-// import { IAddress } from "~interfaces";
 
-const AddressInfo = (props: IAddress): JSX.Element => {
-	const { address } = props;
-
+const AddressInfo = (): JSX.Element => {
+	const addressInfo: IAddress = useSelector(addressSelector);
+	const { address } = addressInfo;
 	return (
 		<div className="address card-body">
 			<div className="address-header">
@@ -16,11 +17,11 @@ const AddressInfo = (props: IAddress): JSX.Element => {
 			<div className="address-info">
 				<div>
 					<p className="sub-title">Balance</p>
-					<BalanceInfo {...props} />
+					<BalanceInfo />
 				</div>
 				<div>
 					<p className="sub-title">Transactions</p>
-					<TransactionsInfo {...props} />
+					<TransactionsInfo />
 				</div>
 			</div>
 		</div>

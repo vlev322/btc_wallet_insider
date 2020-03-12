@@ -1,8 +1,16 @@
-export interface ITxsMeta {
-	totalCount: number;
-	index: number;
-	limit: number;
-	results: number;
+export interface IBalance {
+	totalReceived: number;
+	totalSpent: number;
+	balance: number;
+}
+
+export interface ITxssInfo {
+	txsCount: number;
+	txi: number;
+	txo: number;
+}
+export interface IAddress extends IBalance, ITxssInfo {
+	address: string;
 }
 interface ITxouts {
 	[index: number]: {
@@ -10,26 +18,34 @@ interface ITxouts {
 		spent: boolean;
 	};
 }
-// export interface ITxs {
-// 	txid: string;
-// 	time: string;
-// 	confirmations: number;
-// 	txouts: ITxouts;
-// }
-
-
-export interface IAddress{
-	totalReceived: number;
-	totalSpent: number;
-	txsCount: number;
-	txi: number;
-	txo: number;
-	balance: number;
-	address: string;
+export interface ITxsItem {
+	txid: string;
+	time: string;
+	confirmations: number;
+	txouts: ITxouts;
+}
+interface IDataByAddress {
+	isFetching: boolean;
+	data: IAddress;
 }
 
-export interface IBalance {
-	totalReceived: number;
-	totalSpent: number;
-	balance: number;
+export interface ITxssList {
+	[index: number]: {
+		pages: number;
+		isFetching: boolean;
+		txsList: ITxsItem[];
+	};
+}
+
+export interface IState {
+	listByPage: ITxssList;
+	selectedPage: number;
+	dataByAddress: IDataByAddress;
+}
+
+export interface ITxsMeta {
+	totalCount: number;
+	index: number;
+	limit: number;
+	results: number;
 }

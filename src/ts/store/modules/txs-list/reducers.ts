@@ -1,7 +1,5 @@
-// todo: refactor relative import using babel module resolver or ts alias
-// todo remove selectors from here
-
 import { SELECT_PAGE, REQUEST_LIST, RECEIVE_LIST } from "../../../constants/actions";
+import { ITxssList, ITxsItem } from "../../../interfaces/index";
 
 export function selectedPage(state = 1, action: { type: string; payload: { page: number } }) {
 	switch (action.type) {
@@ -12,14 +10,7 @@ export function selectedPage(state = 1, action: { type: string; payload: { page:
 	}
 }
 
-function list(
-	state = {
-		isFetching: false,
-		txsList: [],
-		pages: 0
-	},
-	action: { type: string; payload: { list: []; pages: number } }
-) {
+function list(state: ITxssList = {}, action: { type: string; payload: { list: ITxsItem[]; pages: number } }) {
 	switch (action.type) {
 		case REQUEST_LIST:
 			return { ...state, isFetching: true };
@@ -35,16 +26,25 @@ function list(
 	}
 }
 
-export function listByPage(state: any = {}, action: any) {
+interface IActionListByPage {
+	type: string;
+	payload: {
+		page: number;
+		pages: number;
+		list: ITxsItem[];
+	};
+}
+
+export function listByPage(txsList: any = {}, action: any) {
 	switch (action.type) {
 		case REQUEST_LIST:
 		case RECEIVE_LIST:
 			return {
-				...state,
-				[action.payload.page]: list(state[action.payload.page], action),
+				...txsList,
+				[action.payload.page]: list(txsList[action.payload.page], action),
 				pages: action.payload.pages
 			};
 		default:
-			return state;
+			return txsList;
 	}
 }
