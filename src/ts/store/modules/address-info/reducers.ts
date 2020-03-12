@@ -1,12 +1,12 @@
 import { REQUEST_ADDRESS_INFO, RECEIVE_ADDRESS_INFO } from "../../../constants/actions";
-// todo: refactor relative import using babel module resolver or ts alias
+import { IAddress } from "../../../interfaces/index";
 
 function addressData(
 	state = {
 		isFetching: false,
 		data: {}
 	},
-	action: { type: string; payload: { data: {} } }
+	action: { type: string; payload: { data: IAddress } }
 ) {
 	switch (action.type) {
 		case REQUEST_ADDRESS_INFO:
@@ -24,8 +24,19 @@ function addressData(
 }
 
 function dataByAddress(
-	state: { isFetching: boolean; data: {} } = { isFetching: false, data: {} },
-	action: { type: string; payload: { data: {} } }
+	state: { isFetching: boolean; data: IAddress } = {
+		isFetching: false,
+		data: {
+			totalReceived: 0,
+			totalSpent: 0,
+			balance: 0,
+			txsCount: 0,
+			txi: 0,
+			txo: 0,
+			address: "XXXXXXXXXXXXXXXX"
+		}
+	},
+	action: { type: string; payload: { data: IAddress } }
 ) {
 	switch (action.type) {
 		case REQUEST_ADDRESS_INFO:

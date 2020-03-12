@@ -13,7 +13,10 @@ export const listInfoSelector = createSelector(getListInfo, data => data);
 export const selectedPageSelector = (state: IState): number => state.selectedPage;
 export const selectPageSelectorMemo = createSelector(selectedPageSelector, (page: number): number => page);
 
-export const qntPagesSelector = (state: IState): number => state.listByPage[1].pages;
+export const qntPagesSelector = (state: IState): number => {
+	const selectedPage = selectedPageSelector(state);
+	return state.listByPage[selectedPage].pages;
+};
 export const selectQntPages = createSelector(qntPagesSelector, (pages: number): number => pages);
 
 export const isFetchingSelector = (state: IState): boolean => {

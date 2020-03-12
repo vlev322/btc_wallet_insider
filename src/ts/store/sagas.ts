@@ -4,7 +4,7 @@ import { fetchAddressInfo } from "./modules/address-info/sagas";
 import { fetchList, nextPageChange } from "./modules/txs-list/sagas";
 
 export function* startup() {
-	const selectedPage = yield select(selectedPageSelector);
+	const selectedPage:number = yield select(selectedPageSelector);
 	yield fork(fetchAddressInfo);
 	yield fork(fetchList, selectedPage);
 }

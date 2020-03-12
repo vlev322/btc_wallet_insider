@@ -1,6 +1,5 @@
 import actionCreatorFactory from "typescript-fsa";
-
-import { SELECT_PAGE, REQUEST_LIST, RECEIVE_LIST } from "../../../constants/actions";
+import { RECEIVE_LIST, REQUEST_LIST, SELECT_PAGE } from "../../../constants/actions";
 import { ITxsItem } from "../../../interfaces/index";
 
 const actionCreator = actionCreatorFactory();

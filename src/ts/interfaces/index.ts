@@ -12,6 +12,9 @@ export interface ITxssInfo {
 export interface IAddress extends IBalance, ITxssInfo {
 	address: string;
 }
+export interface IReceivedData {
+	data: { payload: IAddress };
+}
 interface ITxouts {
 	[index: number]: {
 		amount: string;
@@ -24,7 +27,7 @@ export interface ITxsItem {
 	confirmations: number;
 	txouts: ITxouts;
 }
-interface IDataByAddress {
+export interface IDataByAddress {
 	isFetching: boolean;
 	data: IAddress;
 }

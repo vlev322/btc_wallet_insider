@@ -8,23 +8,28 @@ import { receiveList, requestList } from "./actions";
 
 export function* fetchList(page: number) {
 	yield put(requestList({ page }));
-	const params = {
+	interface IParams {
+		limit: number;
+		index: number;
+	}
+
+	const params: IParams = {
 		limit: LIMIT_ITEMS_ON_PAGE,
 		index: page * LIMIT_ITEMS_ON_PAGE
 	};
 	const { data } = yield call(instanceAxios, TRANSACTIONS_PATH, { params });
 	const { payload, meta }: { payload: ITxsItem[]; meta: ITxsMeta } = data;
 	const list: ITxsItem[] = payload.filter((txs: ITxsItem) => txs.confirmations >= 3);
-	const pages = Math.ceil(meta.totalCount / meta.limit);
+	const pages: number = Math.ceil(meta.totalCount / meta.limit);
 	yield put(receiveList({ page, list, pages }));
 }
 
 export function* nextPageChange() {
 	while (true) {
-		const prevPage = yield select(selectedPageSelector);
+		const prevPage: number = yield select(selectedPageSelector);
 		yield take(SELECT_PAGE);
-		const nextPage = yield select(selectedPageSelector);
-		const listByPage = yield select(listByPageSelector);
+		const nextPage: number = yield select(selectedPageSelector);
+		const listByPage: ITxsItem[] = yield select(listByPageSelector);
 		if (prevPage !== nextPage && !listByPage[nextPage]) yield fork(fetchList, nextPage);
 	}
 }

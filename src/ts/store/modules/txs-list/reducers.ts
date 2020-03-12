@@ -1,7 +1,7 @@
 import { SELECT_PAGE, REQUEST_LIST, RECEIVE_LIST } from "../../../constants/actions";
 import { ITxssList, ITxsItem } from "../../../interfaces/index";
 
-export function selectedPage(state = 1, action: { type: string; payload: { page: number } }) {
+export function selectedPage(state: number = 1, action: { type: string; payload: { page: number } }) {
 	switch (action.type) {
 		case SELECT_PAGE:
 			return action.payload.page;

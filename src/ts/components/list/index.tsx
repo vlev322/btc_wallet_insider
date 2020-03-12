@@ -6,14 +6,13 @@ import { selectPage } from "../../store/modules/txs-list/actions";
 import TransactionListItem from "./list-component";
 import { listSelector, selectPageSelectorMemo, selectQntPages } from "../../store/selectors/selectors";
 
-
 const TransactionsList = (): JSX.Element => {
 	const txsList: ITxsItem[] = useSelector(listSelector);
-	const page = useSelector(selectPageSelectorMemo);
-	const pages = useSelector(selectQntPages);
+	const page: number = useSelector(selectPageSelectorMemo);
+	const pages: number = useSelector(selectQntPages);
 
 	const dispatch = useDispatch();
-	const _onNextPage = useCallback((_, page) => dispatch(selectPage({ page })), [dispatch]);
+	const _onNextPage = useCallback((_, page: number) => dispatch(selectPage({ page })), [dispatch]);
 	return (
 		<div className="card-body">
 			<div className="list-container">
