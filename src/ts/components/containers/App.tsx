@@ -6,21 +6,21 @@ import AddressInfo from "../address";
 import TransactionsList from "../list";
 
 const App = (): JSX.Element => {
-	const isFetching: boolean = useSelector(isLoading);
-	return (
-		<div>
-			{isFetching ? (
-				<div className="loader">
-					<CircularProgress disableShrink />
-				</div>
-			) : (
-				<div className="content">
-					<AddressInfo />
-					<TransactionsList />
-				</div>
-			)}
-		</div>
-	);
+  const isFetching: boolean = useSelector(isLoading);
+  return (
+    <div>
+      {(isFetching && (
+        <div className="loader">
+          <CircularProgress disableShrink />
+        </div>
+      )) || (
+        <div className="content">
+          <AddressInfo />
+          <TransactionsList />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default App;
