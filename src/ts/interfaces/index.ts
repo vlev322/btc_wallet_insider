@@ -1,54 +1,54 @@
 export interface IBalance {
-	totalReceived: number;
-	totalSpent: number;
-	balance: number;
+  total: {
+    balance: string;
+    balance_int: number;
+    input_count: number;
+    output_count: number;
+    received: string;
+    received_int: number;
+    spent: string;
+    spent_int: number;
+    transaction_count: number;
+  };
 }
 
-export interface ITxssInfo {
-	txsCount: number;
-	txi: number;
-	txo: number;
-}
-export interface IAddress extends IBalance, ITxssInfo {
-	address: string;
+export interface IAddress extends IBalance {
+  transaction_paging: any;
+  address: string;
 }
 export interface IReceivedData {
-	data: { payload: IAddress };
-}
-interface ITxouts {
-	[index: number]: {
-		amount: string;
-		spent: boolean;
-	};
+  data: { address: IAddress };
 }
 export interface ITxsItem {
-	txid: string;
-	time: string;
-	confirmations: number;
-	txouts: ITxouts;
+  txid: string;
+  time: number;
+  input_count: number;
+  output_amount: number;
+  input_amount: number;
+  confirmations: number;
 }
 export interface IDataByAddress {
-	isFetching: boolean;
-	data: IAddress;
+  isFetching: boolean;
+  data: IAddress;
 }
 
 export interface ITxssList {
-	[index: number]: {
-		pages: number;
-		isFetching: boolean;
-		txsList: ITxsItem[];
-	};
+  [index: number]: {
+    pages: number;
+    isFetching: boolean;
+    txsList: ITxsItem[];
+  };
 }
 
 export interface IState {
-	listByPage: ITxssList;
-	selectedPage: number;
-	dataByAddress: IDataByAddress;
+  listByPage: ITxssList;
+  selectedPage: number;
+  dataByAddress: IDataByAddress;
 }
 
 export interface ITxsMeta {
-	totalCount: number;
-	index: number;
-	limit: number;
-	results: number;
+  totalCount: number;
+  index: number;
+  limit: number;
+  results: number;
 }

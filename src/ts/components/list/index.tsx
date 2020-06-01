@@ -16,8 +16,8 @@ const TransactionsList = (): JSX.Element => {
 	return (
 		<div className="card-body">
 			<div className="list-container">
-				{txsList.map((txs: ITxsItem) => (
-					<TransactionListItem {...txs} key={txs.txid + txs.txouts} />
+				{txsList && txsList.map((txs: ITxsItem) => (
+					<TransactionListItem {...txs} key={txs.txid} />
 				))}
 			</div>
 			<div className="pagination-container">
